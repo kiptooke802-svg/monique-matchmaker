@@ -1,159 +1,70 @@
-```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Monique Matchmaker Worldwide</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MONIQUE MATCHMAKER - Meaningful Connections</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fff3f7;color:#382132}
-header{background:#a51d59;color:white;text-align:center;padding:25px 12px}
-main{max-width:650px;margin:auto;padding:15px}
-section{background:white;padding:18px;margin:15px 0;border-radius:14px;box-shadow:0 2px 10px #0001}
-input,textarea,button{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:8px;font-size:16px}
-button{background:#a51d59;color:white;border:0;font-weight:bold}
-.member{border:1px solid #edcada;padding:12px;margin:12px 0;border-radius:10px}
-small{color:#756574}
-[hidden]{display:none!important}
+:root{--wine:#641f35;--wine2:#8c3450;--cream:#fff9f1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui;background:var(--cream);color:#2b2b2b;line-height:1.6}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#641f35;color:#fff;position:sticky;top:0}
+.brand{font-weight:900}.btn{background:#641f35;color:#fff;border:none;border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer}.btn-light{background:#fff;color:#641f35}
+.hero{padding:64px 20px 48px;text-align:center;background:radial-gradient(900px 400px at 50% -10%, #a24a65 0%, #641f35 60%);color:#fff}
+.section{padding:36px 20px;max-width:960px;margin:0 auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(100,31,53,.08);border:1px solid #f1e6e0}
+.input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e5d5cf;margin-top:6px}
+.payment{background:#fff8e1;border:1.5px dashed #e6c26e;border-radius:16px;padding:18px;margin:18px 0}
+.muted{color:#6b6b6b;font-size:13px} footer{background:#111;color:#bbb;padding:36px 20px;text-align:center;margin-top:40px}
+#formStatus{margin-top:14px;padding:10px;border-radius:10px;display:none} #formStatus.show{display:block}.ok{background:#e8f5e9;color:#2e7d32}.err{background:#fdecea;color:#b71c1c}
 </style>
 </head>
 <body>
-<header>
-<h1>💕 Monique Matchmaker</h1>
-<p>Real Connections Around the World 🌍</p>
-</header>
+<header><div class="nav"><a style="color:#fff;text-decoration:none" class="brand" href="#">MONIQUE MATCHMAKER</a><a href="#join" class="btn btn-light" style="padding:8px 16px">Join</a></div></header>
 <main>
-<section id="loginArea">
-<h2>Join Monique</h2>
-<input id="key" placeholder="Supabase publishable key">
-<button onclick="connect()">Connect</button>
-<input id="email" type="email" placeholder="Email address">
-<input id="password" type="password" placeholder="Password (minimum 6 characters)">
-<button onclick="register()">Create Account</button>
-<button onclick="login()">Log In</button>
-<p id="status"></p>
-</section>
-<div id="app" hidden>
-<section>
-<h2>Your Profile</h2>
-<input id="name" maxlength="80" placeholder="Display name">
-<input id="age" type="number" min="18" max="120" placeholder="Age (18+)">
-<input id="country" maxlength="80" placeholder="Country">
-<input id="city" maxlength="80" placeholder="City">
-<textarea id="bio" maxlength="500" placeholder="Tell members about yourself"></textarea>
-<button onclick="saveProfile()">Save Profile</button>
-<p id="profileStatus"></p>
-</section>
-<section>
-<h2>🌍 Real Members</h2>
-<button onclick="loadMembers()">Refresh Profiles</button>
-<div id="members">Log in to see members.</div>
-</section>
-<section>
-<h2>Monique Premium 💗</h2>
-<p>M-Pesa Buy Goods and Services</p>
-<h2>Till Number: 6940260</h2>
-<button onclick="navigator.clipboard.writeText('6940260').then(()=>alert('Till number copied')).catch(()=>alert('Till number: 6940260'))">Copy Till Number</button>
-<p>Confirm the merchant name and payment amount before paying. Keep your M-Pesa confirmation message.</p>
-<small>Payments must be verified through a secure payment integration before premium access is granted.</small>
-</section>
-<button onclick="logout()">Log Out</button>
-</div>
+<section class="hero"><h1>Find Meaningful Connections in Kenya</h1><p>Safe, private & verified. For adults 18+ from Nandi, Eldoret, Nairobi & beyond.</p><a href="#join" class="btn btn-light">Join Now - KSh 500</a><p style="color:#ffd6de;margin-top:12px;font-size:13px">Till 6940260 • M-PESA • Instant Confirmation</p></section>
+
+<section class="section" id="how"><h2 style="color:#641f35">How It Works</h2><div class="grid">
+<div class="card"><strong>1. Pay</strong><p class="muted">Send KSh 500 to Till 6940260. Save M-PESA code.</p></div>
+<div class="card"><strong>2. Register</strong><p class="muted">Fill real details below. 18+ only.</p></div>
+<div class="card"><strong>3. Matched</strong><p class="muted">We match you privately on WhatsApp within 24hrs.</p></div>
+</div></section>
+
+<section class="section" id="payments"><div class="payment"><h3 style="margin:0;color:#641f35">💳 M-PESA Payment</h3><p><strong>Till: 6940260</strong> - MONIQUE MATCHMAKER - KSh 500</p><p class="muted">Copy your M-PESA code after paying.</p></div></section>
+
+<section class="section" id="join"><h2 style="color:#641f35">Join Monique Matchmaker</h2><p class="muted">Confidential. 18+ only. Protected under Worldwide  Data Protection Act.</p>
+<div class="card"><form id="joinForm">
+<label>Full Name<input class="input" id="name" required></label>
+<label>Phone (WhatsApp)<input class="input" id="phone" required placeholder="07..."></label>
+<label>Email<input class="input" id="email" type="email" required></label>
+<label>Age<input class="input" id="age" type="number" min="18" required></label>
+<label>Location<select class="input" id="goal"><option>Tanzania</option><option>Nairobii</option><optionUnitedstatesaion><optinRwandaion>Naoptionption><option>Other</option></select></label>
+<label>M-PESA Code<input class="input" id="mpesa" required placeholder="QGH7..."></label>
+<label>About You<textarea class="input" id="about" rows="3" required></textarea></label>
+<label style="font-weight:400;display:flex;gap:8px"><input type="checkbox" required> <span class="muted">I am 18+ and agree to privacy terms.</span></label>
+<button class="btn" style="width:100%;margin-top:16px" type="submit">Submit Registration - KSh 500 Paid</button>
+<div id="formStatus"></div>
+</form></div></section>
 </main>
+
+<footer><div style="color:#fff;font-weight:900">MONIQUE MATCHMAKER<br><small>MEANINGFUL CONNECTIONS</small></div><small>© 2026 • 18+ Only • Till 6940260 • Privacy Protected</small></footer>
+
 <script>
-let db,user;
-function connect(){
-const key=document.getElementById('key').value.trim();
-if(!key){statusText('
+const SUPABASE_URL = 'https://drghzzseucdemsbrproz.supabase.co';
+const SUPABASE_KEY = ' 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-	.');return}
-try{
-db=supabase.createClient('https://drghzzseucdemsbrproz.supabase.co',key);
-statusText('Connected. Create an account or log in.');
-}catch(e){statusText(e.message)}
-}
-function statusText(t){document.getElementById('status').textContent=t}
-async function register(){
-if(!db)return statusText('Enter your Supabase publishable key and tap Connect.');
-const email=document.getElementById('email').value.trim();
-const password=document.getElementById('password').value;
-if(!email||password.length<6)return statusText('Enter a valid email and password of at least 6 characters.');
-const {data,error}=await db.auth.signUp({email,password});
-if(error)return statusText(error.message);
-if(data.session){user=data.user;await start()}
-else statusText('Check your email to confirm your account, then log in.');
-}
-async function login(){
-if(!db)return statusText('Enter your Supabase publishable key and tap Connect.');
-const {data,error}=await db.auth.signInWithPassword({
-email:document.getElementById('email').value.trim(),
-password:document.getElementById('password').value});
-if(error)return statusText(error.message);
-user=data.user;await start();
-}
-async function start(){
-document.getElementById('loginArea').hidden=true;
-document.getElementById('app').hidden=false;
-await loadProfile();await loadMembers();
-}
-async function loadProfile(){
-const {data,error}=await db.from('profiles')
-.select('display_name,age,country,city,bio')
-.eq('id',user.id).maybeSingle();
-if(error){document.getElementById('profileStatus').textContent=error.message;return}
-if(data){
-name.value=data.display_name||'';
-age.value=data.age||'';
-country.value=data.country||'';
-city.value=data.city||'';
-bio.value=data.bio||'';
-}
-}
-async function saveProfile(){
-const display_name=name.value.trim(),a=Number(age.value);
-if(!display_name||a<18||a>120){
-profileStatus.textContent='Enter your name and a valid age of 18 or older.';return;
-}
-const {error}=await db.from('profiles').upsert({
-id:user.id,display_name,age:a,country:country.value.trim(),
-city:city.value.trim(),bio:bio.value.trim(),
-updated_at:new Date().toISOString()
+	';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+document.getElementById('joinForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const status=document.getElementById('formStatus');
+  const data={name:document.getElementById('name').value.trim(),phone:document.getElementById('phone').value.trim(),email:document.getElementById('email').value.trim(),age:Number(document.getElementById('age').value),goal:document.getElementById('goal').value,about:document.getElementById('about').value.trim(),mpesa_code:document.getElementById('mpesa').value.trim()};
+  if(data.age<18){status.className='show err';status.textContent='18+ only';return;}
+  status.className='show';status.textContent='Saving... ⏳';
+  const {error}=await supabaseClient.from('leads').insert([data]);
+  if(error){status.className='show err';status.textContent='Error: '+error.message;}
+  else{status.className='show ok';status.textContent='✅ Karibu! We will WhatsApp you on '+data.phone+' within 24hrs.';e.target.reset();}
 });
-if(error){profileStatus.textContent=error.message;return}
-profileStatus.textContent='Profile saved!';
-await loadMembers();
-}
-async function loadMembers(){
-const box=document.getElementById('members');
-box.textContent='Loading real member profiles...';
-const {data,error}=await db.from('profiles')
-.select('id,display_name,age,country,city,bio')
-.neq('id',user.id).order('created_at',{ascending:false}).limit(100);
-if(error){box.textContent='Database setup or permissions need attention: '+error.message;return}
-box.replaceChildren();
-if(!data.length){box.textContent='No other members yet. Invite people to register!';return}
-data.forEach(p=>{
-const card=document.createElement('div');card.className='member';
-const title=document.createElement('h3');
-title.textContent=p.display_name||'Monique Member';
-card.appendChild(title);
-const details=document.createElement('p');
-details.textContent=(p.age?p.age+' years old':'')+
-(p.city?' · '+p.city:'')+(p.country?', '+p.country:'');
-card.appendChild(details);
-const description=document.createElement('p');
-description.textContent=p.bio||'No introduction yet.';
-card.appendChild(description);
-box.appendChild(card);
-});
-}
-async function logout(){
-await db.auth.signOut();user=null;location.reload();
-}
 </script>
 </body>
-</html>
-```
-	
+	</html>Data
