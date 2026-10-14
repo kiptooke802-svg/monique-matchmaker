@@ -1,68 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MONIQUE MATCHMAKER - Meaningful Connections</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monique International Matchmaking - Real Connections</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--wine:#641f35;--wine2:#8c3450;--cream:#fff9f1}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:system-ui;background:var(--cream);color:#2b2b2b;line-height:1.6}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#641f35;color:#fff;position:sticky;top:0}
-.brand{font-weight:900}.btn{background:#641f35;color:#fff;border:none;border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer}.btn-light{background:#fff;color:#641f35}
-.hero{padding:64px 20px 48px;text-align:center;background:radial-gradient(900px 400px at 50% -10%, #a24a65 0%, #641f35 60%);color:#fff}
-.section{padding:36px 20px;max-width:960px;margin:0 auto}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
-.card{background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(100,31,53,.08);border:1px solid #f1e6e0}
-.input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e5d5cf;margin-top:6px}
-.payment{background:#fff8e1;border:1.5px dashed #e6c26e;border-radius:16px;padding:18px;margin:18px 0}
-.muted{color:#6b6b6b;font-size:13px} footer{background:#111;color:#bbb;padding:36px 20px;text-align:center;margin-top:40px}
-#formStatus{margin-top:14px;padding:10px;border-radius:10px;display:none} #formStatus.show{display:block}.ok{background:#e8f5e9;color:#2e7d32}.err{background:#fdecea;color:#b71c1c}
+body{font-family:Arial;background:#f9f9f9;margin:0;padding:0;color:#222}
+header{background:#000;color:#fff;padding:30px;text-align:center}
+header h1{margin:0;font-size:32px;letter-spacing:1px}
+header p{opacity:0.7;margin-top:8px}
+.container{max-width:700px;margin:20px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+input,select{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
+button.main{background:#000;color:#fff;border:none;padding:14px;width:100%;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px}
+#realPayment{background:#000;color:#fff;padding:20px;border-radius:12px;text-align:center;margin-top:25px}
 </style>
 </head>
 <body>
-<header><div class="nav"><a style="color:#fff;text-decoration:none" class="brand" href="#">MONIQUE MATCHMAKER</a><a href="#join" class="btn btn-light" style="padding:8px 16px">Join</a></div></header>
-<main>
-<section class="hero"><h1>Find Meaningful Connections in Kenya</h1><p>Safe, private & verified. For adults 18+ from Nandi, Eldoret, Nairobi & beyond.</p><a href="#join" class="btn btn-light">Join Now - KSh 500</a><p style="color:#ffd6de;margin-top:12px;font-size:13px">Till 6940260 • M-PESA • Instant Confirmation</p></section>
 
-<section class="section" id="how"><h2 style="color:#641f35">How It Works</h2><div class="grid">
-<div class="card"><strong>1. Pay</strong><p class="muted">Send KSh 500 to Till 6940260. Save M-PESA code.</p></div>
-<div class="card"><strong>2. Register</strong><p class="muted">Fill real details below. 18+ only.</p></div>
-<div class="card"><strong>3. Matched</strong><p class="muted">We match you privately on WhatsApp within 24hrs.</p></div>
-</div></section>
+<header>
+  <h1>Monique International Matchmaking</h1>
+  <p>Real Connections. Verified Profiles. Worldwide.</p>
+</header>
 
-<section class="section" id="payments"><div class="payment"><h3 style="margin:0;color:#641f35">💳 M-PESA Payment</h3><p><strong>Till: 6940260</strong> - MONIQUE MATCHMAKER - KSh 500</p><p class="muted">Copy your M-PESA code after paying.</p></div></section>
+<div class="container">
+  <h2>Join Now</h2>
+  <form id="matchForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email Address" required>
+    <input type="number" id="age" placeholder="Age (18+)" min="18" required>
+    <select id="gender" required>
+      <option value="">Select Gender</option>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+    <button class="main" type="submit">Create Profile</button>
+  </form>
 
-<section class="section" id="join"><h2 style="color:#641f35">Join Monique Matchmaker</h2><p class="muted">Confidential. 18+ only. Protected under Kenya Data Protection Act.</p>
-<div class="card"><form id="joinForm">
-<label>Full Name<input class="input" id="name" required></label>
-<label>Phone (WhatsApp)<input class="input" id="phone" required placeholder="07..."></label>
-<label>Email<input class="input" id="email" type="email" required></label>
-<label>Age<input class="input" id="age" type="number" min="18" required></label>
-<label>Location<select class="input" id="goal"><option>Nandi</option><option>Eldoret</option><option>Nairobi</option><option>Kisumu</option><option>Nakuru</option><option>Other</option></select></label>
-<label>M-PESA Code<input class="input" id="mpesa" required placeholder="QGH7..."></label>
-<label>About You<textarea class="input" id="about" rows="3" required></textarea></label>
-<label style="font-weight:400;display:flex;gap:8px"><input type="checkbox" required> <span class="muted">I am 18+ and agree to privacy terms.</span></label>
-<button class="btn" style="width:100%;margin-top:16px" type="submit">Submit Registration - KSh 500 Paid</button>
-<div id="formStatus"></div>
-</form></div></section>
-</main>
-
-<footer><div style="color:#fff;font-weight:900">MONIQUE MATCHMAKER<br><small>MEANINGFUL CONNECTIONS</small></div><small>© 2026 • 18+ Only • Till 6940260 • Privacy Protected</small></footer>
+  <!-- REAL PAYMENT - 0141622180 - NO NAME -->
+  <div id="realPayment">
+    <h3 style="margin:0 0 10px;">Lipa Na M-Pesa</h3>
+    <p style="margin:5px 0;opacity:0.8;">Send Money / Buy Goods</p>
+    <h2 id="mpesaNumber" style="letter-spacing:2px;margin:10px 0;font-size:32px;">0141622180</h2>
+    <button onclick="copyMpesa()" style="background:#1aff66;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Copy Number</button>
+    <p style="margin-top:15px;font-size:13px;opacity:0.7;">After paying, send screenshot on WhatsApp for instant activation</p>
+  </div>
+</div>
 
 <script>
-const SUPABASE_URL = 'https://drghzzseucdemsbrproz.supabase.co';
-const SUPABASE_KEY = 'https://kiptooke802-svg.github.io/monique-matchmaker/';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-document.getElementById('joinForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const status=document.getElementById('formStatus');
-  const data={name:document.getElementById('name').value.trim(),phone:document.getElementById('phone').value.trim(),email:document.getElementById('email').value.trim(),age:Number(document.getElementById('age').value),goal:document.getElementById('goal').value,about:document.getElementById('about').value.trim(),mpesa_code:document.getElementById('mpesa').value.trim()};
-  if(data.age<18){status.className='show err';status.textContent='18+ only';return;}
-  status.className='show';status.textContent='Saving... ⏳';
-  const {error}=await supabaseClient.from('leads').insert([data]);
-  if(error){status.className='show err';status.textContent='Error: '+error.message;}
-  else{status.className='show ok';status.textContent='✅ Karibu! We will WhatsApp you on '+data.phone+' within 24hrs.';e.target.reset();}
-});
-</script>
-</body>
-	</html>
+// === REAL SUPABASE CONNECTION ===
