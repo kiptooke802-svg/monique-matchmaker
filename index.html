@@ -2,50 +2,156 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monique International Matchmaking - Real Connections</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monique Matchmaker</title>
 <style>
-body{font-family:Arial;background:#f9f9f9;margin:0;padding:0;color:#222}
-header{background:#000;color:#fff;padding:30px;text-align:center}
-header h1{margin:0;font-size:32px;letter-spacing:1px}
-header p{opacity:0.7;margin-top:8px}
-.container{max-width:700px;margin:20px auto;padding:20px;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-input,select{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
-button.main{background:#000;color:#fff;border:none;padding:14px;width:100%;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px}
-#realPayment{background:#000;color:#fff;padding:20px;border-radius:12px;text-align:center;margin-top:25px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#fff5f8;color:#29202a}
+header{background:#a50050;color:white;text-align:center;padding:25px 12px}
+header h1{margin:0;font-size:30px}
+nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:15px}
+button{background:#b00059;color:white;border:0;border-radius:8px;padding:12px 18px;cursor:pointer;font-weight:bold}
+button:hover{background:#830040}
+main{max-width:850px;margin:20px auto;padding:15px}
+.card{background:white;padding:22px;border-radius:14px;box-shadow:0 3px 15px #00000010;margin-bottom:20px}
+input,select,textarea{width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ddd;border-radius:7px;font-size:16px}
+label{font-weight:bold}
+.hidden{display:none}
+.profile{border:1px solid #eee;padding:15px;border-radius:10px;margin:12px 0}
+.notice{background:#fff0c9;padding:14px;border-radius:8px}
+footer{text-align:center;padding:25px;color:#777}
 </style>
 </head>
 <body>
-
 <header>
-  <h1>Monique International Matchmaking</h1>
-  <p>Real Connections. Verified Profiles. Worldwide.</p>
+<h1>❤️ Monique Matchmaker</h1>
+<p>Find love. Build connections. Meet your match.</p>
 </header>
 
-<div class="container">
-  <h2>Join Now</h2>
-  <form id="matchForm">
-    <input type="text" id="name" placeholder="Full Name" required>
-    <input type="email" id="email" placeholder="Email Address" required>
-    <input type="number" id="age" placeholder="Age (18+)" min="18" required>
-    <select id="gender" required>
-      <option value="">Select Gender</option>
-      <option>Male</option>
-      <option>Female</option>
-    </select>
-    <button class="main" type="submit">Create Profile</button>
-  </form>
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('register')">Register</button>
+<button onclick="show('login')">Login</button>
+<button onclick="show('members')">Members</button>
+<button onclick="show('payment')">Payment</button>
+</nav>
 
-  <!-- REAL PAYMENT - 0141622180 - NO NAME -->
-  <div id="realPayment">
-    <h3 style="margin:0 0 10px;">Lipa Na M-Pesa</h3>
-    <p style="margin:5px 0;opacity:0.8;">Send Money / Buy Goods</p>
-    <h2 id="mpesaNumber" style="letter-spacing:2px;margin:10px 0;font-size:32px;">0141622180</h2>
-    <button onclick="copyMpesa()" style="background:#1aff66;color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;">Copy Number</button>
-    <p style="margin-top:15px;font-size:13px;opacity:0.7;">After paying, send screenshot on WhatsApp for instant activation</p>
-  </div>
+<main>
+<section id="home" class="card">
+<h2>Welcome to Monique Matchmaker</h2>
+<p>Meet new people and discover meaningful relationships.</p>
+<p>Create your account to start building your profile.</p>
+<button onclick="show('register')">Join Now ❤️</button>
+</section>
+
+<section id="register" class="card hidden">
+<h2>Create Your Account</h2>
+<form id="registerForm">
+<label>Full name</label>
+<input id="name" required maxlength="80">
+<label>Email</label>
+<input id="email" type="email" required>
+<label>Password</label>
+<input id="password" type="password" minlength="8" required>
+<label>Age</label>
+<input id="age" type="number" min="18" max="120" required>
+<label>Country</label>
+<input id="country" required placeholder="e.g. Kenya">
+<label>Gender</label>
+<select id="gender" required>
+<option value="">Select</option>
+<option>Woman</option>
+<option>Man</option>
+<option>Other</option>
+</select>
+<label>About yourself</label>
+<textarea id="about" maxlength="500" required></textarea>
+<button type="submit">Create Account</button>
+</form>
+<p id="registerMessage"></p>
+</section>
+
+<section id="login" class="card hidden">
+<h2>Member Login</h2>
+<form id="loginForm">
+<label>Email</label>
+<input id="loginEmail" type="email" required>
+<label>Password</label>
+<input id="loginPassword" type="password" required>
+<button type="submit">Login</button>
+</form>
+<p id="loginMessage"></p>
+<button onclick="logout()">Log Out</button>
+</section>
+
+<section id="members" class="card hidden">
+<h2>Member Profiles</h2>
+<p>Profiles are visible here only when loaded from your connected database.</p>
+<div id="memberList"></div>
+<p id="memberMessage">Connect Supabase to display real registered members.</p>
+</section>
+
+<section id="payment" class="card hidden">
+<h2>💳 M-Pesa Payment</h2>
+<p>Connection access fee: <strong>KSh 888</strong></p>
+<div class="notice">
+<p><strong>Payment number:</strong> 0141622180</p>
+<p><strong>Amount:</strong> KSh 888</p>
+<p>Open M-Pesa on your phone and use the appropriate Send Money or payment option for this number.</p>
+<p>Confirm the recipient's name before paying. Do not pay if the number does not resolve to the intended recipient.</p>
 </div>
+<label>M-Pesa transaction code</label>
+<input id="transactionCode" placeholder="Enter transaction code">
+<button onclick="submitPayment()">Submit Payment Details</button>
+<p id="paymentMessage"></p>
+<p>Submitting a code does not verify payment. Access must be approved after the payment is independently confirmed.</p>
+</section>
+
+<section id="profile" class="card hidden">
+<h2>Your Profile</h2>
+<div id="profileInfo"></div>
+<button onclick="show('members')">Explore Members</button>
+</section>
+</main>
+
+<footer>© 2026 Monique Matchmaker | Connect with care ❤️</footer>
 
 <script>
-// === REAL SUPABASE CONNECTION ===
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+
+function show(id){
+document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+}
+
+function submitPayment(){
+const code=document.getElementById('transactionCode').value.trim();
+const message=document.getElementById('paymentMessage');
+if(!code){message.textContent="Please enter your transaction code.";return;}
+message.textContent="Payment details noted in this page only. A secure backend must verify the transaction before granting access.";
+}
+
+document.getElementById('registerForm').addEventListener('submit',function(e){
+e.preventDefault();
+document.getElementById('registerMessage').textContent=
+"Your form is ready, but real registration is not enabled yet. Connect Supabase authentication and a profiles table to create a secure account.";
+});
+
+document.getElementById('loginForm').addEventListener('submit',function(e){
+e.preventDefault();
+document.getElementById('loginMessage').textContent=
+"Login is not connected yet. Supabase authentication must be configured before members can sign in.";
+});
+
+function logout(){
+show('home');
+}
+
+if(SUPABASE_URL && SUPABASE_ANON_KEY){
+document.getElementById('memberMessage').textContent=
+"Supabase credentials detected. Complete the database and authentication integration to load verified member profiles.";
+}
+</script>
+</body>
+  </html>
