@@ -1,83 +1,333 @@
-<section class="payment-section">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- MONIQUE MATCHMAKING LOGO -->
-  <div class="logo-container">
+  <title>Monique Matchmaking</title>
+
+  <meta name="description" content="Monique Matchmaking - Find Your Perfect Match.">
+
+  <!-- Supabase library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #080808;
+      color: #ffffff;
+    }
+
+    header {
+      text-align: center;
+      padding: 35px 15px;
+      background: #000000;
+      border-bottom: 1px solid #d4af37;
+    }
+
+    .website-logo {
+      display: block;
+      width: 180px;
+      max-width: 85%;
+      height: auto;
+      margin: 0 auto 20px;
+    }
+
+    header h1 {
+      color: #d4af37;
+      font-size: 28px;
+      letter-spacing: 2px;
+      margin: 10px 0;
+    }
+
+    header p {
+      color: #f2b6c6;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #151515;
+      border: 1px solid #d4af37;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    h2, h3 {
+      color: #d4af37;
+    }
+
+    button {
+      background: #d4af37;
+      color: #080808;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f2b6c6;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #d4af37;
+      border-radius: 6px;
+      background: #080808;
+      color: #ffffff;
+    }
+
+    .mpesa-number {
+      font-size: 26px;
+      color: #d4af37;
+      font-weight: bold;
+    }
+
+    .message {
+      margin-top: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #d4af37;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <!-- Upload your logo to GitHub as logo.png -->
     <img
       src="logo.png"
       alt="Monique Matchmaking Logo"
       class="website-logo"
     >
-  </div>
 
-  <h1>MONIQUE MATCHMAKING</h1>
-  <p>Find Your Perfect Match ❤️</p>
+    <h1>MONIQUE MATCHMAKING</h1>
+    <p>❤️ Find Your Perfect Match ❤️</p>
+  </header>
 
-  <h3>Membership Payment</h3>
-  <p>Pay using M-Pesa Send Money</p>
+  <main>
 
-  <div class="payment-card">
-    <h2>M-Pesa Payment</h2>
-    <p>Send your membership payment to:</p>
+    <section class="card">
+      <h2>Welcome to Monique Matchmaking</h2>
+      <p>
+        Meet new people, discover meaningful connections,
+        and find someone special.
+      </p>
+    </section>
 
-    <h2 class="mpesa-number">0141622180</h2>
+    <section class="card">
+      <h2>Create Your Account</h2>
 
-    <ol>
-      <li>Open M-Pesa on your phone.</li>
-      <li>Select Send Money.</li>
-      <li>Enter 0141622180.</li>
-      <li>Enter your membership fee.</li>
-      <li>Confirm the payment.</li>
-    </ol>
-  </div>
+      <form id="signup-form">
+        <input
+          type="email"
+          id="signup-email"
+          placeholder="Your email address"
+          autocomplete="email"
+          required
+        >
 
-</section>
+        <input
+          type="password"
+          id="signup-password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+          minlength="8"
+          required
+        >
 
-<style>
-  .payment-section {
-    background: #080808;
-    color: #d4af37;
-    text-align: center;
-    padding: 30px 15px;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-  }
+        <button type="submit">Register</button>
+      </form>
 
-  .logo-container {
-    margin-bottom: 15px;
-  }
+      <p id="signup-message" class="message"></p>
+    </section>
 
-  .website-logo {
-    width: 180px;
-    max-width: 80%;
-    height: auto;
-    object-fit: contain;
-  }
+    <section class="card">
+      <h2>Member Login</h2>
 
-  .payment-section h1 {
-    letter-spacing: 2px;
-    font-size: 26px;
-  }
+      <form id="login-form">
+        <input
+          type="email"
+          id="login-email"
+          placeholder="Your email address"
+          autocomplete="email"
+          required
+        >
 
-  .payment-card {
-    max-width: 400px;
-    margin: 25px auto;
-    padding: 25px;
-    border: 1px solid #d4af37;
-    border-radius: 12px;
-    background: #151515;
-  }
+        <input
+          type="password"
+          id="login-password"
+          placeholder="Your password"
+          autocomplete="current-password"
+          required
+        >
 
-  .payment-card p,
-  .payment-card li {
-    color: #ffffff;
-  }
+        <button type="submit">Log In</button>
+      </form>
 
-  .payment-card ol {
-    text-align: left;
-    line-height: 2;
-  }
+      <p id="login-message" class="message"></p>
+    </section>
 
-  .mpesa-number {
-    color: #d4af37;
-  }
-    </style>
+    <section class="card">
+      <h2>M-Pesa Membership Payment</h2>
+
+      <p>Payment method: M-Pesa Send Money</p>
+
+      <p>Send your payment to:</p>
+
+      <p class="mpesa-number">0141622180</p>
+
+      <ol>
+        <li>Open M-Pesa on your phone.</li>
+        <li>Select Send Money.</li>
+        <li>Enter the recipient's number above.</li>
+        <li>Enter the membership fee provided by the website owner.</li>
+        <li>Confirm the recipient and payment details before sending.</li>
+      </ol>
+
+      <p>
+        Keep your M-Pesa transaction message as proof of payment.
+        Membership payments must be verified before paid access is activated.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Monique Matchmaking</p>
+    <p>Love begins with a connection. ❤️</p>
+  </footer>
+
+  <script>
+    // ==========================================
+    // SUPABASE CONFIGURATION
+    // Paste your actual Supabase details below.
+    // ==========================================
+
+    const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+    // Connect to Supabase.
+    // Registration and login require Supabase Auth
+    // to be enabled in your Supabase project.
+
+    let supabaseClient = null;
+
+    const configurationIsReady =
+      SUPABASE_URL.startsWith("https://") &&
+      SUPABASE_URL.includes(".supabase.co") &&
+      SUPABASE_PUBLISHABLE_KEY.length > 0 &&
+      SUPABASE_PUBLISHABLE_KEY !==
+        "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
+    if (configurationIsReady && window.supabase) {
+      supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+    }
+
+    function showConfigurationError(elementId) {
+      document.getElementById(elementId).textContent =
+        "Website setup is incomplete. Please try again later.";
+    }
+
+    // Member registration.
+    document.getElementById("signup-form").addEventListener(
+      "submit",
+      async function (event) {
+        event.preventDefault();
+
+        const message = document.getElementById("signup-message");
+        const email = document.getElementById("signup-email").value.trim();
+        const password = document.getElementById("signup-password").value;
+
+        if (!supabaseClient) {
+          showConfigurationError("signup-message");
+          return;
+        }
+
+        message.textContent = "Creating your account...";
+
+        try {
+          const { error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            message.textContent = error.message;
+            return;
+          }
+
+          message.textContent =
+            "Registration submitted. Check your email if confirmation is required.";
+        } catch (error) {
+          message.textContent =
+            "Unable to register right now. Please try again.";
+        }
+      }
+    );
+
+    // Member login.
+    document.getElementById("login-form").addEventListener(
+      "submit",
+      async function (event) {
+        event.preventDefault();
+
+        const message = document.getElementById("login-message");
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value;
+
+        if (!supabaseClient) {
+          showConfigurationError("login-message");
+          return;
+        }
+
+        message.textContent = "Signing you in...";
+
+        try {
+          const { error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) {
+            message.textContent = error.message;
+            return;
+          }
+
+          message.textContent = "You are logged in successfully!";
+        } catch (error) {
+          message.textContent =
+            "Unable to log in right now. Please try again.";
+        }
+      }
+    );
+  </script>
+
+</body>
+  </html>
