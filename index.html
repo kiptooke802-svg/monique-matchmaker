@@ -4,151 +4,523 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Monique Matchmaker</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fff5f8;color:#29202a}
-header{background:#a50050;color:white;text-align:center;padding:25px 12px}
-header h1{margin:0;font-size:30px}
-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:15px}
-button{background:#b00059;color:white;border:0;border-radius:8px;padding:12px 18px;cursor:pointer;font-weight:bold}
-button:hover{background:#830040}
-main{max-width:850px;margin:20px auto;padding:15px}
-.card{background:white;padding:22px;border-radius:14px;box-shadow:0 3px 15px #00000010;margin-bottom:20px}
-input,select,textarea{width:100%;padding:12px;margin:8px 0 14px;border:1px solid #ddd;border-radius:7px;font-size:16px}
-label{font-weight:bold}
-.hidden{display:none}
-.profile{border:1px solid #eee;padding:15px;border-radius:10px;margin:12px 0}
-.notice{background:#fff0c9;padding:14px;border-radius:8px}
-footer{text-align:center;padding:25px;color:#777}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#fff5f7;
+  color:#29202a;
+}
+header{
+  background:#8c174e;
+  color:white;
+  text-align:center;
+  padding:24px 12px;
+}
+header h1{margin:0 0 8px}
+nav{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:14px;
+  background:white;
+}
+button{
+  background:#8c174e;
+  color:white;
+  border:0;
+  border-radius:7px;
+  padding:12px 16px;
+  cursor:pointer;
+}
+button:disabled{opacity:.6}
+input,textarea,select{
+  display:block;
+  width:100%;
+  padding:12px;
+  margin:8px 0 14px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  font-size:16px;
+}
+main{
+  max-width:800px;
+  margin:20px auto;
+  padding:15px;
+}
+.card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 2px 12px #00000010;
+}
+h2{color:#8c174e}
+.hidden{display:none!important}
+.member{
+  border:1px solid #eee;
+  padding:14px;
+  margin:12px 0;
+  border-radius:9px;
+  overflow-wrap:anywhere;
+}
+.member img{
+  width:100%;
+  max-width:240px;
+  border-radius:10px;
+}
+.notice{padding:12px;border-radius:7px;background:#fce7f0}
+footer{text-align:center;padding:25px;background:white}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>❤️ Monique Matchmaker</h1>
-<p>Find love. Build connections. Meet your match.</p>
+  <h1>Monique Matchmaker ❤️</h1>
+  <p>Helping people find meaningful relationships worldwide.</p>
 </header>
 
 <nav>
-<button onclick="show('home')">Home</button>
-<button onclick="show('register')">Register</button>
-<button onclick="show('login')">Login</button>
-<button onclick="show('members')">Members</button>
-<button onclick="show('payment')">Payment</button>
+  <button id="homeBtn">Home</button>
+  <button id="profileBtn" class="hidden">My Profile</button>
+  <button id="membersBtn" class="hidden">Members</button>
+  <button id="logoutBtn" class="hidden">Log Out</button>
 </nav>
 
 <main>
-<section id="home" class="card">
-<h2>Welcome to Monique Matchmaker</h2>
-<p>Meet new people and discover meaningful relationships.</p>
-<p>Create your account to start building your profile.</p>
-<button onclick="show('register')">Join Now ❤️</button>
-</section>
 
-<section id="register" class="card hidden">
-<h2>Create Your Account</h2>
-<form id="registerForm">
-<label>Full name</label>
-<input id="name" required maxlength="80">
-<label>Email</label>
-<input id="email" type="email" required>
-<label>Password</label>
-<input id="password" type="password" minlength="8" required>
-<label>Age</label>
-<input id="age" type="number" min="18" max="120" required>
-<label>Country</label>
-<input id="country" required placeholder="e.g. Kenya">
-<label>Gender</label>
-<select id="gender" required>
-<option value="">Select</option>
-<option>Woman</option>
-<option>Man</option>
-<option>Other</option>
-</select>
-<label>About yourself</label>
-<textarea id="about" maxlength="500" required></textarea>
-<button type="submit">Create Account</button>
-</form>
-<p id="registerMessage"></p>
-</section>
+  <section class="card" id="home">
+    <h2>Find Your Perfect Match</h2>
+    <p>Create your profile and meet people looking for meaningful relationships.</p>
 
-<section id="login" class="card hidden">
-<h2>Member Login</h2>
-<form id="loginForm">
-<label>Email</label>
-<input id="loginEmail" type="email" required>
-<label>Password</label>
-<input id="loginPassword" type="password" required>
-<button type="submit">Login</button>
-</form>
-<p id="loginMessage"></p>
-<button onclick="logout()">Log Out</button>
-</section>
+    <div class="notice">
+      <strong>Membership payment information</strong>
+      <p>Payment number: <strong>0141622180</strong></p>
+      <p>Confirm the membership price and payment instructions with the
+      website administrator before sending money.</p>
+      <p>Payment is not automatically verified by this website.</p>
+    </div>
+  </section>
 
-<section id="members" class="card hidden">
-<h2>Member Profiles</h2>
-<p>Profiles are visible here only when loaded from your connected database.</p>
-<div id="memberList"></div>
-<p id="memberMessage">Connect Supabase to display real registered members.</p>
-</section>
+  <section class="card" id="authSection">
+    <h2>Create Your Account</h2>
 
-<section id="payment" class="card hidden">
-<h2>💳 M-Pesa Payment</h2>
-<p>Connection access fee: <strong>KSh 888</strong></p>
-<div class="notice">
-<p><strong>Payment number:</strong> 0141622180</p>
-<p><strong>Amount:</strong> KSh 888</p>
-<p>Open M-Pesa on your phone and use the appropriate Send Money or payment option for this number.</p>
-<p>Confirm the recipient's name before paying. Do not pay if the number does not resolve to the intended recipient.</p>
-</div>
-<label>M-Pesa transaction code</label>
-<input id="transactionCode" placeholder="Enter transaction code">
-<button onclick="submitPayment()">Submit Payment Details</button>
-<p id="paymentMessage"></p>
-<p>Submitting a code does not verify payment. Access must be approved after the payment is independently confirmed.</p>
-</section>
+    <form id="signupForm">
+      <label>Full name</label>
+      <input id="signupName" required maxlength="100">
 
-<section id="profile" class="card hidden">
-<h2>Your Profile</h2>
-<div id="profileInfo"></div>
-<button onclick="show('members')">Explore Members</button>
-</section>
+      <label>Email address</label>
+      <input id="signupEmail" type="email" required>
+
+      <label>Password (at least 8 characters)</label>
+      <input id="signupPassword" type="password"
+             minlength="8" required>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <hr>
+
+    <h2>Already a Member? Log In</h2>
+
+    <form id="loginForm">
+      <label>Email address</label>
+      <input id="loginEmail" type="email" required>
+
+      <label>Password</label>
+      <input id="loginPassword" type="password" required>
+
+      <button type="submit">Log In</button>
+    </form>
+  </section>
+
+  <section class="card hidden" id="profileSection">
+    <h2>My Dating Profile</h2>
+    <p>Complete your profile to appear in the members directory.</p>
+
+    <form id="profileForm">
+      <label>Full name</label>
+      <input id="fullName" required maxlength="100">
+
+      <label>Age (18–120)</label>
+      <input id="age" type="number" min="18" max="120" required>
+
+      <label>Country</label>
+      <input id="country" maxlength="100">
+
+      <label>Interests</label>
+      <input id="interests" placeholder="Reading, travel, music">
+
+      <label>Relationship goal</label>
+      <select id="goal">
+        <option value="Serious relationship">Serious relationship</option>
+        <option value="Marriage">Marriage</option>
+        <option value="Friendship">Friendship</option>
+        <option value="Getting to know someone">Getting to know someone</option>
+      </select>
+
+      <label>About me</label>
+      <textarea id="aboutMe" rows="4" maxlength="2000"></textarea>
+
+      <label>Profile photo URL (optional)</label>
+      <input id="photoUrl" type="url"
+             placeholder="https://example.com/photo.jpg">
+
+      <button type="submit">Save My Profile</button>
+    </form>
+  </section>
+
+  <section class="card hidden" id="membersSection">
+    <h2>Our Members</h2>
+    <p>Browse dating profiles created by registered members.</p>
+    <button id="refreshBtn">Refresh Members</button>
+    <div id="memberList"></div>
+  </section>
+
+  <p id="status" role="status" aria-live="polite"></p>
+
 </main>
 
-<footer>© 2026 Monique Matchmaker | Connect with care ❤️</footer>
+<footer>
+  <p>Monique Matchmaker © 2026</p>
+  <p>Respect, honesty and meaningful relationships.</p>
+</footer>
 
 <script>
+/*
+  REPLACE THESE TWO PLACEHOLDERS WITH YOUR REAL SUPABASE DETAILS.
+  Use your Project URL and public Publishable/anon key only.
+*/
 const SUPABASE_URL = "https://kiptooke802-svg.github.io/monique-matchmaker/";
-const SUPABASE_ANON_KEY = "sb_publishable_CuyLN7z2_a73vIv2vHVdSA_sERz7Edp/";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_CuyLN7z2_a73vIv2vHVdSA_sERz7Edp";
 
-function show(id){
-document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
-document.getElementById(id).classList.remove('hidden');
+const configured =
+  SUPABASE_URL.startsWith("https://") &&
+  SUPABASE_URL.endsWith(".supabase.co") &&
+  !SUPABASE_URL.includes("PASTE_") &&
+  !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
+
+let db = null;
+let currentUser = null;
+
+const $ = id => document.getElementById(id);
+
+function message(text) {
+  $("status").textContent = text;
 }
 
-function submitPayment(){
-const code=document.getElementById('transactionCode').value.trim();
-const message=document.getElementById('paymentMessage');
-if(!code){message.textContent="Please enter your transaction code.";return;}
-message.textContent="Payment details noted in this page only. A secure backend must verify the transaction before granting access.";
+function show(id, visible) {
+  $(id).classList.toggle("hidden", !visible);
 }
 
-document.getElementById('registerForm').addEventListener('submit',function(e){
-e.preventDefault();
-document.getElementById('registerMessage').textContent=
+function safeUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function clearElement(element) {
+  element.replaceChildren();
+}
+
+function addText(parent, tag, value) {
+  const element = document.createElement(tag);
+  element.textContent = value || "";
+  parent.appendChild(element);
+  return element;
+}
+
+function updateScreen() {
+  const loggedIn = Boolean(currentUser);
+
+  show("authSection", !loggedIn);
+  show("profileBtn", loggedIn);
+  show("membersBtn", loggedIn);
+  show("logoutBtn", loggedIn);
+  show("profileSection", false);
+  show("membersSection", false);
+}
+
+function checkConfigured() {
+  if (!configured) {
+    message("Setup needed: enter your Supabase Project URL and public Publishable key in the code.");
+    return false;
+  }
+  return true;
+}
+
+async function openApp() {
+  const { data, error } = await db.auth.getSession();
+
+  if (error) {
+    message("Could not check your login. Please try again.");
+    return;
+  }
+
+  currentUser = data.session?.user || null;
+  updateScreen();
+
+  if (currentUser) {
+    await loadProfile();
+  }
+}
+
+async function loadProfile() {
+  if (!currentUser) return;
+
+  const { data, error } = await db
+    .from("dating_profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (error) {
+    message("Could not load your profile. Check your Supabase table permissions.");
+    return;
+  }
+
+  $("fullName").value =
+    data?.full_name || currentUser.user_metadata?.full_name || "";
+
+  $("age").value = data?.age ?? "";
+  $("country").value = data?.country || "";
+  $("interests").value = data?.interests || "";
+  $("goal").value = data?.relationship_goal || "Serious relationship";
+  $("aboutMe").value = data?.about_me || "";
+  $("photoUrl").value = data?.profile_photo_url || "";
+
+  message(data ? "Welcome back! Your profile is available." :
+                 "Welcome! Complete and save your dating profile.");
+}
+
+$("signupForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!checkConfigured()) return;
+
+  const name = $("signupName").value.trim();
+  const email = $("signupEmail").value.trim();
+  const password = $("signupPassword").value;
+
+  if (name.length < 2) {
+    message("Please enter your full name.");
+    return;
+  }
+
+  message("Creating your account...");
+
+  const { data, error } = await db.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { full_name: name }
+    }
+  });
+
+  if (error) {
+    message("Registration failed: " + error.message);
+    return;
+  }
+
+  if (data.session) {
+    currentUser = data.user;
+    updateScreen();
+    show("profileSection", true);
+    $("fullName").value = name;
+    message("Account created! Complete your dating profile and save it.");
+  } else {
+    message("Account request received. Check your email for a verification link. After verifying, log in here.");
+  }
 });
 
-document.getElementById('loginForm').addEventListener('submit',function(e){
-e.preventDefault();
-document.getElementById('loginMessage').textContent=
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  if (!checkConfigured()) return;
 
+  message("Logging in...");
 
-function logout(){
-show('home');
+  const { data, error } = await db.auth.signInWithPassword({
+    email: $("loginEmail").value.trim(),
+    password: $("loginPassword").value
+  });
+
+  if (error) {
+    message("Login failed: " + error.message);
+    return;
+  }
+
+  currentUser = data.user;
+  updateScreen();
+  await loadProfile();
+});
+
+$("profileForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentUser) {
+    message("Please log in first.");
+    return;
+  }
+
+  const age = Number($("age").value);
+
+  if (!Number.isInteger(age) || age < 18 || age > 120) {
+    message("Members must be at least 18 years old.");
+    return;
+  }
+
+  const photo = $("photoUrl").value.trim();
+
+  if (photo && !safeUrl(photo)) {
+    message("Please use a valid HTTPS photo URL.");
+    return;
+  }
+
+  const profile = {
+    id: currentUser.id,
+    full_name: $("fullName").value.trim(),
+    age,
+    country: $("country").value.trim(),
+    interests: $("interests").value.trim(),
+    relationship_goal: $("goal").value,
+    about_me: $("aboutMe").value.trim(),
+    profile_photo_url: photo || null
+  };
+
+  if (!profile.full_name) {
+    message("Please enter your full name.");
+    return;
+  }
+
+  message("Saving your profile...");
+
+  const { error } = await db
+    .from("dating_profiles")
+    .upsert(profile, { onConflict: "id" });
+
+  if (error) {
+    message("Profile could not be saved: " + error.message);
+    return;
+  }
+
+  message("Success! Your dating profile has been saved.");
+});
+
+async function loadMembers() {
+  if (!currentUser) {
+    message("Please log in to view members.");
+    return;
+  }
+
+  message("Loading members...");
+
+  const list = $("memberList");
+  clearElement(list);
+
+  const { data, error } = await db
+    .from("dating_profiles")
+    .select("id, full_name, age, country, interests, relationship_goal, about_me, profile_photo_url")
+    .order("created_at", { ascending: false })
+    .limit(100);
+
+  if (error) {
+    message("Could not load members. Check your SELECT policy in Supabase.");
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    addText(list, "p", "No dating profiles have been published yet. Be the first to complete your profile!");
+    message("");
+    return;
+  }
+
+  data.forEach(profile => {
+    const card = document.createElement("article");
+    card.className = "member";
+
+    const heading = `${profile.full_name}, ${profile.age}`;
+    addText(card, "h3", heading);
+
+    if (profile.country) addText(card, "p", "Country: " + profile.country);
+    if (profile.interests) addText(card, "p", "Interests: " + profile.interests);
+    if (profile.relationship_goal) addText(card, "p", "Looking for: " + profile.relationship_goal);
+    if (profile.about_me) addText(card, "p", profile.about_me);
+
+    const photo = safeUrl(profile.profile_photo_url || "");
+
+    if (photo) {
+      const img = document.createElement("img");
+      img.src = photo;
+      img.alt = "Profile photo";
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      card.appendChild(img);
+    }
+
+    list.appendChild(card);
+  });
+
+  message("Members loaded: " + data.length);
 }
 
-if(SUPABASE_URL && SUPABASE_ANON_KEY){
-document.getElementById('memberMessage').textContent=
+$("profileBtn").addEventListener("click", async () => {
+  show("profileSection", true);
+  show("membersSection", false);
+  await loadProfile();
+});
 
+$("membersBtn").addEventListener("click", async () => {
+  show("profileSection", false);
+  show("membersSection", true);
+  await loadMembers();
+});
+
+$("refreshBtn").addEventListener("click", loadMembers);
+
+$("homeBtn").addEventListener("click", () => {
+  show("profileSection", false);
+  show("membersSection", false);
+  show("home", true);
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    message("Could not log out: " + error.message);
+    return;
+  }
+
+  currentUser = null;
+  updateScreen();
+  show("home", true);
+  message("You have logged out.");
+});
+
+if (configured) {
+  db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  db.auth.onAuthStateChange((_event, session) => {
+    currentUser = session?.user || null;
+    updateScreen();
+  });
+
+  openApp();
+} else {
+  message("Setup needed: enter your Supabase URL and Publishable key.");
+}
 </script>
+
 </body>
-  </html>
+        </html>
