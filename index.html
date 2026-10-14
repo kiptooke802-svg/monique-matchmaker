@@ -135,14 +135,12 @@ message.textContent="Payment details noted in this page only. A secure backend m
 document.getElementById('registerForm').addEventListener('submit',function(e){
 e.preventDefault();
 document.getElementById('registerMessage').textContent=
-"Your form is ready, but real registration is not enabled yet. Connect Supabase authentication and a profiles table to create a secure account.";
 });
 
 document.getElementById('loginForm').addEventListener('submit',function(e){
 e.preventDefault();
 document.getElementById('loginMessage').textContent=
-"Login is not connected yet. Supabase authentication must be configured before members can sign in.";
-});
+
 
 function logout(){
 show('home');
@@ -150,8 +148,7 @@ show('home');
 
 if(SUPABASE_URL && SUPABASE_ANON_KEY){
 document.getElementById('memberMessage').textContent=
-"Supabase credentials detected. Complete the database and authentication integration to load verified member profiles.";
-}
+
 </script>
 </body>
   </html>
