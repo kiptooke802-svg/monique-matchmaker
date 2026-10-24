@@ -1,333 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Monique Matchmaking</title>
-
-  <meta name="description" content="Monique Matchmaking - Find Your Perfect Match.">
-
-  <!-- Supabase library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #080808;
-      color: #ffffff;
-    }
-
-    header {
-      text-align: center;
-      padding: 35px 15px;
-      background: #000000;
-      border-bottom: 1px solid #d4af37;
-    }
-
-    .website-logo {
-      display: block;
-      width: 180px;
-      max-width: 85%;
-      height: auto;
-      margin: 0 auto 20px;
-    }
-
-    header h1 {
-      color: #d4af37;
-      font-size: 28px;
-      letter-spacing: 2px;
-      margin: 10px 0;
-    }
-
-    header p {
-      color: #f2b6c6;
-    }
-
-    main {
-      max-width: 700px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: #151515;
-      border: 1px solid #d4af37;
-      border-radius: 12px;
-      padding: 25px;
-      margin-bottom: 25px;
-    }
-
-    h2, h3 {
-      color: #d4af37;
-    }
-
-    button {
-      background: #d4af37;
-      color: #080808;
-      border: none;
-      border-radius: 6px;
-      padding: 12px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #f2b6c6;
-    }
-
-    input {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin: 12px 0;
-      border: 1px solid #d4af37;
-      border-radius: 6px;
-      background: #080808;
-      color: #ffffff;
-    }
-
-    .mpesa-number {
-      font-size: 26px;
-      color: #d4af37;
-      font-weight: bold;
-    }
-
-    .message {
-      margin-top: 15px;
-      overflow-wrap: anywhere;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #d4af37;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#8d1238">
+<title>Monique Matchmaker — Find Your Person</title>
+<meta name="description" content="Meet genuine people around the world with Monique Matchmaker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--wine:#8d1238;--wine2:#b51f50;--gold:#e9bd62;--ink:#21171c;--muted:#74666d;--cream:#fffaf6;--line:#f0dfe5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{background:#fff;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line)}
+.nav{max-width:1180px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--wine);font-weight:800;text-decoration:none}
+.brandmark{width:42px;height:42px;border-radius:50%;background:var(--wine);display:grid;place-items:center;color:var(--gold);font-size:24px}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1px}
+.navlinks,.actions,.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:700}
+.primary{background:var(--wine);color:white}
+.outline{background:white;border:1px solid var(--line);color:var(--wine)}
+.gold{background:var(--gold);color:#3e1b20}
+.soft{background:#f9eaf0;color:var(--wine)}
+.hero{background:linear-gradient(120deg,#3d071c,#801137 60%,#a3294e);color:white}
+.hero-inner{max-width:1180px;margin:auto;padding:65px 22px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;color:var(--gold);font-size:12px;font-weight:800}
+h1,h2{font-family:"Playfair Display",serif}
+.hero h1{font-size:clamp(38px,6vw,65px);line-height:1.1;margin:15px 0}
+.hero p{color:#f8dfe8;line-height:1.8}
+.heartart{font-size:150px;text-align:center;color:var(--gold);text-shadow:0 10px 30px #0005}
+.wrap,.app{max-width:1180px;margin:auto;padding:35px 22px}
+.features,.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.panel,.feature{background:white;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 25px #4b142008}
+.feature p,.notice,.meta{color:var(--muted);line-height:1.6}
+.apphead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.tabs{margin:20px 0}
+.tab{border:1px solid var(--line);background:white;color:var(--muted);border-radius:25px;padding:10px 14px;font-weight:700}
+.tab.active{background:var(--wine);color:white}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin:20px 0}
+input,select,textarea{width:100%;padding:12px;border:1px solid #e8d8df;border-radius:10px;background:white}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.field label{font-size:13px;font-weight:700}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.wide{grid-column:1/-1}
+.person{padding:0;overflow:hidden}
+.person-cover{height:160px;background:linear-gradient(135deg,#f6d7df,#8d1238);display:grid;place-items:center;font-size:60px;color:white;position:relative}
+.person-cover img{width:100%;height:100%;object-fit:cover}
+.country{position:absolute;bottom:10px;left:10px;background:white;color:#21171c;border-radius:20px;padding:6px 9px;font-size:12px}
+.person-body{padding:17px}
+.person h3{margin:0 0 6px}
+.bio{font-size:14px;line-height:1.6}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip,.badge{background:#fff0f4;color:var(--wine);border-radius:20px;padding:5px 9px;font-size:12px;font-weight:700}
+.actions{margin-top:15px}
+.actions .btn{flex:1}
+.status{padding:12px;border-radius:10px;margin:10px 0;font-size:14px;line-height:1.5}
+.info{background:#f0f5ff;color:#254a88}
+.ok{background:#eaf8f0;color:#17633f}
+.err{background:#fff0f0;color:#9b2424}
+.empty{background:white;border:1px dashed #dfbdca;padding:30px;text-align:center;border-radius:15px;color:var(--muted);grid-column:1/-1}
+.hidden{display:none!important}
+.modal-backdrop{position:fixed;inset:0;background:#1a0710a8;z-index:30;display:grid;place-items:center;padding:15px}
+.modal{background:white;border-radius:18px;width:min(620px,100%);max-height:90vh;overflow:auto;padding:24px}
+.modalhead{display:flex;justify-content:space-between;align-items:center}
+.x{border:0;background:#f8eaf0;border-radius:50%;width:36px;height:36px;color:var(--wine);font-size:20px}
+.footer{background:#2d0717;color:#f9e8ee;padding:30px 22px;text-align:center}
+.footer p{color:#e5cbd4}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2d0717;color:white;padding:13px 18px;border-radius:12px;z-index:50;max-width:90%}
+@media(max-width:800px){.hero-inner{grid-template-columns:1fr}.features,.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.filters{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.features,.grid,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}.hero h1{font-size:42px}.heartart{font-size:100px}.nav{align-items:flex-start;flex-direction:column}.filters{grid-template-columns:1fr}.wrap,.app{padding:25px 15px}}
+</style>
 </head>
-
 <body>
 
-  <header>
-    <!--file_0000000039e481f481a73bab1bda4183.png-->
-    <img
-      src="<img src="file_0000000039e481f481a73bab1bda4183.png" alt="Profile Photo" style="max-width:100%; height:auto;">"
-      alt="png Matchmaking Logo"
-      class="website-logo"
-    >
+<header class="topbar">
+<nav class="nav">
+<a class="brand" href="#" onclick="goHome();return false">
+<span class="brandmark">♥</span>
+<span>MONIQUE MATCHMAKER<small>REAL CONNECTIONS • WORLDWIDE</small></span>
+</a>
+<div class="navlinks">
+<button class="btn outline" onclick="showApp('discover')">Discover</button>
+<button class="btn outline" id="navLogin" onclick="openAuth('login')">Log in</button>
+<button class="btn primary" id="navJoin" onclick="openAuth('signup')">Join free</button>
+<button class="btn soft hidden" id="navProfile" onclick="showApp('profile')">My profile</button>
+<button class="btn outline hidden" id="navLogout" onclick="logout()">Log out</button>
+</div>
+</nav>
+</header>
 
-    <h1>MONIQUE MATCHMAKING</h1>
-    <p>❤️ Find Your Perfect Match ❤️</p>
-  </header>
+<section class="hero" id="hero">
+<div class="hero-inner">
+<div>
+<div class="eyebrow">Your story can start anywhere</div>
+<h1>Love has no borders.<br><span style="color:var(--gold)">Find your person.</span></h1>
+<p>Meet people from Kenya and around the world. Discover shared values, build meaningful connections and let something real begin.</p>
+<div class="actions">
+<button class="btn gold" onclick="openAuth('signup')">Create your free profile ♥</button>
+<button class="btn outline" onclick="showApp('discover')">Explore members</button>
+</div>
+<p>Respectful dating • Adults 18+ • Worldwide connections</p>
+</div>
+<div class="heartart">♥</div>
+</div>
+</section>
 
-  <main>
+<section class="wrap" id="why">
+<h2>More than a swipe</h2>
+<p>Find people who share your interests and relationship goals.</p>
+<div class="features">
+<div class="feature"><h3>🌍 Meet worldwide</h3><p>Explore members by country, age, interests and relationship goals.</p></div>
+<div class="feature"><h3>💗 Compatibility</h3><p>Discover people with shared interests and values.</p></div>
+<div class="feature"><h3>🛡️ More control</h3><p>Manage your profile and choose whom you want to connect with.</p></div>
+</div>
+</section>
 
-    <section class="card">
-      <h2>Welcome to Monique Matchmaking</h2>
-      <p>
-        Meet new people, discover meaningful connections,
-        and find someone special.
-      </p>
-    </section>
+<main class="app hidden" id="app">
+<div class="apphead">
+<div><div class="eyebrow" style="color:var(--wine)">Your matchmaking space</div><h2 id="appTitle">Discover people</h2></div>
+<div id="sessionLabel" class="badge">Browsing</div>
+</div>
+<div id="appMessage" aria-live="polite"></div>
+<div class="tabs">
+<button class="tab active" data-tab="discover" onclick="showApp('discover')">🌍 Discover</button>
+<button class="tab" data-tab="likes" onclick="showApp('likes')">💗 Likes</button>
+<button class="tab" data-tab="matches" onclick="showApp('matches')">💞 Matches</button>
+<button class="tab" data-tab="requests" onclick="showApp('requests')">✉️ Connections</button>
+<button class="tab" data-tab="profile" onclick="showApp('profile')">👤 My profile</button>
+</div>
 
-    <section class="card">
-      <h2>Create Your Account</h2>
+<section id="discoverPanel">
+<div class="filters">
+<input id="searchText" placeholder="Search name, bio or interest" oninput="renderDiscover()">
+<select id="countryFilter" onchange="renderDiscover()"><option value="">Any country</option></select>
+<select id="genderFilter" onchange="renderDiscover()"><option value="">Any gender</option><option>Woman</option><option>Man</option><option>Non-binary</option><option>Prefer not to say</option></select>
+<button class="btn outline" onclick="resetFilters()">Reset</button>
+</div>
+<div id="peopleGrid" class="grid"></div>
+</section>
 
-      <form id="signup-form">
-        <input
-          type="email"
-          id="signup-email"
-          placeholder="Your email address"
-          autocomplete="email"
-          required
-        >
+<section id="likesPanel" class="hidden"><div id="likesGrid" class="grid"></div></section>
+<section id="matchesPanel" class="hidden"><div id="matchesGrid" class="grid"></div></section>
 
-        <input
-          type="password"
-          id="signup-password"
-          placeholder="Create a password"
-          autocomplete="new-password"
-          minlength="8"
-          required
-        >
+<section id="requestsPanel" class="hidden">
+<div class="panel">
+<h3>Connection requests</h3>
+<p class="notice">Requests remain pending until payment is manually reviewed. Verify payment details before sending money.</p>
+<div id="requestsList"></div>
+</div>
+</section>
 
-        <button type="submit">Register</button>
+<section id="profilePanel" class="hidden">
+<div class="panel">
+<h3>Your profile</h3>
+<p class="notice">Never include your home address, password or financial details in your profile.</p>
+<form id="profileForm" onsubmit="saveProfile(event)">
+<div class="formgrid">
+<div class="field"><label>Display name *</label><input id="pName" maxlength="50" required></div>
+<div class="field"><label>Date of birth *</label><input id="pBirth" type="date" required></div>
+<div class="field"><label>Gender</label><select id="pGender"><option value="">Choose</option><option>Woman</option><option>Man</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
+<div class="field"><label>Country *</label><input id="pCountry" maxlength="80" required placeholder="e.g. Kenya"></div>
+<div class="field"><label>City</label><input id="pCity" maxlength="80"></div>
+<div class="field"><label>Looking for</label><select id="pSeeking"><option>Long-term relationship</option><option>Marriage</option><option>Friendship first</option><option>Dating</option><option>Still exploring</option></select></div>
+<div class="field"><label>Preferred age from</label><input id="pMinAge" type="number" min="18" max="100" value="18"></div>
+<div class="field"><label>Preferred age to</label><input id="pMaxAge" type="number" min="18" max="100" value="60"></div>
+<div class="field wide"><label>Profile photo URL (optional)</label><input id="pPhoto" type="url" placeholder="https://..."></div>
+<div class="field wide"><label>Interests, separated by commas</label><input id="pInterests" maxlength="250" placeholder="Travel, cooking, music"></div>
+<div class="field wide"><label>About me *</label><textarea id="pBio" maxlength="700" required placeholder="Tell people about your personality and what you hope to find."></textarea></div>
+</div>
+<button class="btn primary" type="submit">Save my profile</button>
+</form>
+</div>
+</section>
+</main>
+
+<section class="wrap" id="gettingStarted">
+<h2>Start with a few simple steps</h2>
+<div class="features">
+<div class="feature"><h3>1️⃣ Create an account</h3><p>Sign up with your email and password.</p></div>
+<div class="feature"><h3>2️⃣ Tell your story</h3><p>Add your profile, interests and relationship goals.</p></div>
+<div class="feature"><h3>3️⃣ Connect thoughtfully</h3><p>Like someone and match when they like you back.</p></div>
+</div>
+</section>
+
+<footer class="footer">
+<strong>♥ Monique Matchmaker</strong>
+<p>Love has no borders.</p>
+<p>Adults 18+ only. Never send money to someone claiming to be a romantic match. Meet new people safely.</p>
+<p>© <span id="year"></span> Monique Matchmaker</p>
+</footer>
+
+<div id="modalRoot"></div>
+<div id="toast" class="toast hidden"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* Replace these two values with your Supabase Project URL and publishable/anon key.
+   Never place a service_role key in website code. */
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
+
+const PAYMENT_NUMBER = "0141622180";
+const CONNECTION_FEE_KES = 888;
+
+let db=null, user=null, myProfile=null, allProfiles=[], likes=[], matches=[], requests=[], activeTab="discover";
+
+const configured = () =>
+  SUPABASE_URL.startsWith("https://") &&
+  !SUPABASE_URL.includes("PASTE_") &&
+  SUPABASE_ANON_KEY.length > 30 &&
+  !SUPABASE_ANON_KEY.includes("PASTE_");
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function showMessage(message, type="info") {
+  const el=document.getElementById("appMessage");
+  if(el) el.innerHTML='<div class="status '+type+'">'+esc(message)+'</div>';
+  if(!db && !document.getElementById("setupBanner")) {
+    const banner=document.createElement("div");
+    banner.id="setupBanner";
+    banner.className="wrap";
+    banner.innerHTML='<div class="status info">Connect your Supabase project and run the required database SQL to activate real accounts, profiles and matching.</div>';
+    document.getElementById("hero").after(banner);
+  }
+}
+
+function toast(message) {
+  const el=document.getElementById("toast");
+  el.textContent=message;
+  el.classList.remove("hidden");
+  setTimeout(()=>el.classList.add("hidden"),3800);
+}
+
+function goHome() {
+  window.scrollTo({top:0,behavior:"smooth"});
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("hero").classList.remove("hidden");
+  document.getElementById("why").classList.remove("hidden");
+  document.getElementById("gettingStarted").classList.remove("hidden");
+}
+
+function refreshShell() {
+  document.getElementById("navLogin").classList.toggle("hidden",!!user);
+  document.getElementById("navJoin").classList.toggle("hidden",!!user);
+  document.getElementById("navProfile").classList.toggle("hidden",!user);
+  document.getElementById("navLogout").classList.toggle("hidden",!user);
+  document.getElementById("sessionLabel").textContent=user?(myProfile?.display_name||user.email):"Browsing";
+}
+
+function showApp(tab) {
+  activeTab=tab;
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("hero").classList.add("hidden");
+  document.getElementById("why").classList.add("hidden");
+  document.getElementById("gettingStarted").classList.add("hidden");
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+  ["discover","likes","matches","requests","profile"].forEach(t=>
+    document.getElementById(t+"Panel").classList.toggle("hidden",t!==tab)
+  );
+  document.getElementById("appTitle").textContent=({
+    discover:"Discover people",likes:"People you like",matches:"Your matches",
+    requests:"Connection requests",profile:"Your profile"
+  })[tab];
+  if(tab==="discover") renderDiscover();
+  if(tab==="likes") renderLikes();
+  if(tab==="matches") renderMatches();
+  if(tab==="requests") renderRequests();
+  if(tab==="profile") fillProfile();
+  document.getElementById("app").scrollIntoView({behavior:"smooth",block:"start"});
+  if(!user && ["likes","matches","requests","profile"].includes(tab))
+    showMessage("Please log in to use this member feature.","info");
+}
+
+function openAuth(mode) {
+  const signup=mode==="signup";
+  document.getElementById("modalRoot").innerHTML=`
+  <div class="modal-backdrop" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modalhead"><h2>${signup?"Join Monique Matchmaker":"Welcome back"}</h2><button class="x" onclick="closeModal()">×</button></div>
+      <p class="notice">${signup?"Create your account to meet adults around the world.":"Log in to continue."}</p>
+      <div id="authMessage"></div>
+      <form onsubmit="authSubmit(event,'${mode}')">
+        <div class="field"><label>Email address</label><input id="authEmail" type="email" required autocomplete="email" placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input id="authPassword" type="password" minlength="8" required autocomplete="${signup?"new-password":"current-password"}" placeholder="At least 8 characters"></div>
+        ${signup?'<label class="notice"><input id="adultCheck" type="checkbox" required> I confirm I am 18 or older.</label>':""}
+        <button class="btn primary" style="width:100%;margin-top:18px">${signup?"Create account":"Log in"}</button>
       </form>
+      <p class="notice">${signup?"Already have an account?":"New here?"} <button class="btn soft" onclick="openAuth('${signup?"login":"signup"}')">${signup?"Log in":"Join free"}</button></p>
+      <p class="notice">Email confirmation may be required by your Supabase settings.</p>
+    </div>
+  </div>`;
+}
 
-      <p id="signup-message" class="message"></p>
-    </section>
+function closeModal() {
+  document.getElementById("modalRoot").innerHTML="";
+}
 
-    <section class="card">
-      <h2>Member Login</h2>
+async function authSubmit(event,mode) {
+  event.preventDefault();
+  if(!db) {
+    document.getElementById("authMessage").innerHTML='<div class="status err">Supabase is not configured yet. Add your project URL and publishable key.</div>';
+    return;
+  }
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+  const target=document.getElementById("authMessage");
+  target.innerHTML='<div class="status info">Please wait…</div>';
+  let result;
+  if(mode==="signup") {
+    result=await db.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});
+  } else {
+    result=await db.auth.signInWithPassword({email,password});
+  }
+  if(result.error) {
+    target.innerHTML='<div class="status err">'+esc(result.error.message)+'</div>';
+    return;
+  }
+  if(mode==="signup" && !result.data.session) {
+    target.innerHTML='<div class="status ok">Account created. Check your email to confirm it, then log in.</div>';
+    return;
+  }
+  user=result.data.user;
+  closeModal();
+  await loadData();
+  showApp("profile");
+  toast("You are logged in. Complete your profile to get started.");
+}
 
-      <form id="login-form">
-        <input
-          type="email"
-          id="login-email"
-          placeholder="Your email address"
-          autocomplete="email"
-          required
-        >
+async function logout() {
+  if(db) await db.auth.signOut();
+  user=null;myProfile=null;
+  refreshShell();goHome();toast("You have logged out.");
+}
 
-        <input
-          type="password"
-          id="login-password"
-          placeholder="Your password"
-          autocomplete="current-password"
-          required
-        >
+async function boot() {
+  try {
+    const {data:{session}}=await db.auth.getSession();
+    user=session?.user||null;
+    refreshShell();
+    if(user) await loadData();
+    db.auth.onAuthStateChange((_event,session)=>{
+      user=session?.user||null;
+      refreshShell();
+      if(user) loadData();
+    });
+  } catch(error) {
+    showMessage("Could not connect to Supabase: "+error.message,"err");
+  }
+}
 
-        <button type="submit">Log In</button>
-      </form>
-
-      <p id="login-message" class="message"></p>
-    </section>
-
-    <section class="card">
-      <h2>M-Pesa Membership Payment</h2>
-
-      <p>Payment method: M-Pesa Send Money</p>
-
-      <p>Send your payment to:</p>
-
-      <p class="mpesa-number">0141622180</p>
-
-      <ol>
-        <li>Open M-Pesa on your phone.</li>
-        <li>Select Send Money.</li>
-        <li>Enter the recipient's number above.</li>
-        <li>Enter the membership fee provided by the website owner.</li>
-        <li>Confirm the recipient and payment details before sending.</li>
-      </ol>
-
-      <p>
-        Keep your M-Pesa transaction message as proof of payment.
-        Membership payments must be verified before paid access is activated.
-      </p>
-    </section>
-
-  </main>
-
-  <footer>
-    <p>© 2026 Monique Matchmaking</p>
-    <p>Love begins with a connection. ❤️</p>
-  </footer>
-
-  <script>
-    // ==========================================
-    // SUPABASE CONFIGURATION
-    // Paste your actual Supabase details below.
-    // ==========================================
-
-    const SUPABASE_URL = "https://drghzzseucdemsbrproz.supabase.co";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_CuyLN7z2_a73vIv2vHVdSA_sERz7Edp";
-
-    // Connect to Supabase.
-    // Registration and login require Supabase Auth
-    // to be enabled in your Supabase project.
-
-    let supabaseClient = null;
-
-    const configurationIsReady =
-      SUPABASE_URL.startsWith("https://") &&
-      SUPABASE_URL.includes(".supabase.co") &&
-      SUPABASE_PUBLISHABLE_KEY.length > 0 &&
-      SUPABASE_PUBLISHABLE_KEY !==
-        "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
-
-    if (configurationIsReady && window.supabase) {
-      supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
+async function loadData() {
+  if(!db||!user) return;
+  try {
+    const profileResult=await db.from("profiles").select("*").eq("id",user.id).maybeSingle();
+    if(profileResult.error) throw profileResult.error;
+    myProfile=profileResult.data;
+    if(!myProfile) {
+      myProfile={id:user.id,display_name:"",country:"",bio:""};
     }
-
-    function showConfigurationError(elementId) {
-      document.getElementById(elementId).textContent =
-        "Website setup is incomplete. Please try again later.";
-    }
-
-    // Member registration.
-    document.getElementById("signup-form").addEventListener(
-      "submit",
-      async function (event) {
-        event.preventDefault();
-
-        const message = document.getElementById("signup-message");
-        const email = document.getElementById("signup-email").value.trim();
-        const password = document.getElementById("signup-password").value;
-
-        if (!supabaseClient) {
-          showConfigurationError("signup-message");
-          return;
-        }
-
-        message.textContent = "Creating your account...";
-
-        try {
-          const { error } = await supabaseClient.auth.signUp({
-            email: email,
-            password: password
-          });
-
-          if (error) {
-            message.textContent = error.message;
-            return;
-          }
-
-          message.textContent =
-            "Registration submitted. Check your email if confirmation is required.";
-        } catch (error) {
-          message.textContent =
-            "Unable to register right now. Please try again.";
-        }
-      }
-    );
-
-    // Member login.
-    document.getElementById("login-form").addEventListener(
-      "submit",
-      async function (event) {
-        event.preventDefault();
-
-        const message = document.getElementById("login-message");
-        const email = document.getElementById("login-email").value.trim();
-        const password = document.getElementById("login-password").value;
-
-        if (!supabaseClient) {
-          showConfigurationError("login-message");
-          return;
-        }
-
-        message.textContent = "Signing you in...";
-
-        try {
-          const { error } = await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
-
-          if (error) {
-            message.textContent = error.message;
-            return;
-          }
-
-          message.textContent = "You are logged in successfully!";
-        } catch (error) {
-          message.textContent =
-            "Unable to log in right now. Please try again.";
-        }
-      }
-    );
-  </script>
-
-</body>
-  </html>
+    const results=await Promise.all([
+      db.from("profiles").select("*").eq("is_visible",true).neq("id",user.id).order("created_at",{ascending:false}).limit(200),
+      db.from("likes").select("*").eq("liker_id",user.id),
+      db.from("matches").select("*").or("user_a.eq."+user.id+",user_b.eq."+user.id),
+      db.from("connection_requests").select("*").or("sender_id.eq."+user.id+",recipient_id.eq."+user.id).order("created_at",{ascending:false})
+    ]);
+    results.forEach(r=>{if(r.error)throw r.error;});
+    allProfiles=results[0].data||[];
+    likes=results[1].data||[];
+    matches=results[2].data||[];
+    requests=results[3].data||[];
+    populateCountries();
+    refreshShell();
+    renderDiscover();
+  } catch(error) {
+    showMessage("Database setup needs attention: "+error.message+". Check your Supabase tables and security policies.","err");
+  }
